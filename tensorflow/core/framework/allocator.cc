@@ -106,7 +106,18 @@ class CPUAllocator : public Allocator {
     *stats = stats_;
   }
 
+<<<<<<< HEAD
   size_t AllocatedSizeSlow(void* ptr) override {
+=======
+  void ClearStats() override {
+    mutex_lock l(mu_);
+    stats_.num_allocs = 0;
+    stats_.max_bytes_in_use = stats_.bytes_in_use;
+    stats_.max_alloc_size = 0;
+  }
+
+  size_t AllocatedSizeSlow(const void* ptr) override {
+>>>>>>> 9126444b41... Fix memory tracking in the case where temp memory is used as output memory.
     return port::MallocExtension_GetAllocatedSize(ptr);
   }
 

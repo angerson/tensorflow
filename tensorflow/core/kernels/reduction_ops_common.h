@@ -235,6 +235,7 @@ class ReductionOp : public OpKernel {
     if (!out.CopyFrom(tmp_out, helper.out_shape())) {
       ctx->SetStatus(errors::Internal("Error during reduction copy."));
     }
+<<<<<<< HEAD
     if (ctx->track_allocations()) {
       // The temporary memory becomes the output memory.
       if (ctx->allocate_on_host(alloc_attr)) {
@@ -245,6 +246,8 @@ class ReductionOp : public OpKernel {
             -static_cast<int64>(out.AllocatedBytes()));
       }
     }
+=======
+>>>>>>> 9126444b41... Fix memory tracking in the case where temp memory is used as output memory.
     ctx->set_output(0, out);
   }
 

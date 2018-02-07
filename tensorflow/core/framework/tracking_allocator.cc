@@ -108,7 +108,7 @@ bool TrackingAllocator::TracksAllocationSizes() {
   return track_sizes_locally_ || allocator_->TracksAllocationSizes();
 }
 
-size_t TrackingAllocator::RequestedSize(void* ptr) {
+size_t TrackingAllocator::RequestedSize(const void* ptr) {
   if (track_sizes_locally_) {
     mutex_lock lock(mu_);
     auto it = in_use_.find(ptr);
@@ -121,7 +121,7 @@ size_t TrackingAllocator::RequestedSize(void* ptr) {
   }
 }
 
-size_t TrackingAllocator::AllocatedSize(void* ptr) {
+size_t TrackingAllocator::AllocatedSize(const void* ptr) {
   if (track_sizes_locally_) {
     mutex_lock lock(mu_);
     auto it = in_use_.find(ptr);
@@ -134,7 +134,7 @@ size_t TrackingAllocator::AllocatedSize(void* ptr) {
   }
 }
 
-int64 TrackingAllocator::AllocationId(void* ptr) {
+int64 TrackingAllocator::AllocationId(const void* ptr) {
   if (track_sizes_locally_) {
     mutex_lock lock(mu_);
     auto it = in_use_.find(ptr);

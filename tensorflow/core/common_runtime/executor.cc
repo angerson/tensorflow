@@ -151,6 +151,7 @@ void SetOutput(NodeExecStats* nt, int slot, const Tensor* v) {
 
 void SetMemory(NodeExecStats* nt, OpKernelContext* ctx) {
   for (const auto& allocator_pair : ctx->wrapped_allocators()) {
+<<<<<<< HEAD
     AllocatorMemoryUsed* memory = nt->add_memory();
     // retrieving the sizes from the wrapped allocator removes the
     // executor's reference to it, so allocator_pair.second must not
@@ -177,6 +178,16 @@ void SetMemory(NodeExecStats* nt, OpKernelContext* ctx) {
   ms->set_host_persistent_memory_size(ctx->host_persistent_memory_allocated());
   ms->set_device_persistent_memory_size(
       ctx->device_persistent_memory_allocated());
+=======
+    stats->AddAllocation(allocator_pair.first, allocator_pair.second);
+  }
+  auto* ms = stats->stats()->mutable_memory_stats();
+  ms->set_temp_memory_size(ctx->temp_memory_allocated());
+  for (const auto& alloc_id : ctx->persistent_alloc_ids()) {
+    ms->mutable_persistent_tensor_alloc_ids()->Add(alloc_id);
+  }
+  ms->set_persistent_memory_size(ctx->persistent_memory_allocated());
+>>>>>>> 9126444b41... Fix memory tracking in the case where temp memory is used as output memory.
 }
 
 void SetReferencedTensors(NodeExecStats* nt,
