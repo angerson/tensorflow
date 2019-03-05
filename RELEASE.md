@@ -1,6 +1,6 @@
 # Release 9.98.0
 
-<REPLACE THIS TEXT WITH THE RELEASE NOTES>
+* Tons of sweet features!
 
 # Release 1.11.0
 
