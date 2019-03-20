@@ -1,6 +1,6 @@
 # Release 1.23.0
 
-<REPLACE THIS TEXT WITH THE RELEASE NOTES>
+Here are some spiffy release notes for this version.
 
 # Release 1.13.0
 
