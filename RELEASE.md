@@ -1,3 +1,7 @@
+# Release 1.23.0
+
+Here are some spiffy release notes for this version.
+
 # Release 1.13.0
 
 ## Major Features and Improvements
