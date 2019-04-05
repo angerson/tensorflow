@@ -88,15 +88,15 @@ pkg_tar(
 
 pkg_tar(
     name = "clib",
-    files = select({
+    srcs = select({
         "//tensorflow:macos": [
-            "//tensorflow:libtensorflow.dylib",
+            "//tensorflow:libtensorflow.dylib_grp",
         ],
         "//tensorflow:windows": [
             "//tensorflow:tensorflow.dll",
             "//tensorflow:tensorflow_dll_import_lib",
         ],
-        "//conditions:default": ["//tensorflow:libtensorflow.so"],
+        "//conditions:default": ["//tensorflow:libtensorflow.so_grp"],
     }),
     package_dir = "lib",
     # Mark as "manual" till

@@ -36,7 +36,7 @@ cd ${TEST_TMPDIR}
 
 # Extract the archive into tensorflow/
 mkdir tensorflow
-${TAR} -xzf ${TARFILE} -Ctensorflow
+${TAR} -xzvf ${TARFILE} -Ctensorflow
 
 # Compile the test .c file. Assumes with_framework_lib=True.
 ${CC} ${CFILE} -Itensorflow/include -Ltensorflow/lib\

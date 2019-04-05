@@ -391,19 +391,21 @@ def _rpath_linkopts(name):
 
 # Bazel-generated shared objects which must be linked into TensorFlow binaries
 # to define symbols from //tensorflow/core:framework and //tensorflow/core:lib.
-def tf_binary_additional_srcs(fullversion = False):
+def tf_binary_additional_srcs(fullversion = False, unversioned=False):
     if fullversion:
         suffix = "." + VERSION
+    elif unversioned:
+        suffix = ""
     else:
         suffix = "." + VERSION.split(".")[0]
 
     return if_static(
         extra_deps = [],
         macos = [
-            clean_dep("//tensorflow:libtensorflow_framework%s.dylib" % suffix),
+            clean_dep("//tensorflow:libtensorflow_framework.dylib_grp"),
         ],
         otherwise = [
-            clean_dep("//tensorflow:libtensorflow_framework.so%s" % suffix),
+            clean_dep("//tensorflow:libtensorflow_framework.so_grp"),
         ],
     )
 
@@ -496,26 +498,11 @@ def tf_cc_shared_object(
         )]
 
     for name_os, name_os_major, name_os_full in names:
+
         # Windows DLLs cant be versioned
         if name_os.endswith(".dll"):
             name_os_major = name_os
             name_os_full = name_os
-
-        if name_os != name_os_major:
-            native.genrule(
-                name = name_os + "_sym",
-                outs = [name_os],
-                srcs = [name_os_major],
-                output_to_bindir = 1,
-                cmd = "ln -sf $$(basename $<) $@",
-            )
-            native.genrule(
-                name = name_os_major + "_sym",
-                outs = [name_os_major],
-                srcs = [name_os_full],
-                output_to_bindir = 1,
-                cmd = "ln -sf $$(basename $<) $@",
-            )
 
         soname = name_os_major.split("/")[-1]
 
@@ -538,17 +525,42 @@ def tf_cc_shared_object(
             **kwargs
         )
 
-    flat_names = [item for sublist in names for item in sublist]
-    if name not in flat_names:
-        native.filegroup(
-            name = name,
-            srcs = select({
-                "//tensorflow:windows": [":%s.dll" % (name)],
-                "//tensorflow:macos": [":lib%s%s.dylib" % (name, longsuffix)],
-                "//conditions:default": [":lib%s.so%s" % (name, longsuffix)],
-            }),
-            visibility = visibility,
-        )
+        if name_os != name_os_major:
+            native.genrule(
+                name = name_os_major + "_sym",
+                outs = [name_os_major],
+                srcs = [name_os_full],
+                output_to_bindir = 1,
+                cmd = "ln -sf ./$$(basename $<) $@",
+            )
+            native.genrule(
+                name = name_os + "_sym",
+                outs = [name_os],
+                srcs = [name_os_major],
+                output_to_bindir = 1,
+                cmd = "ln -sf ./$$(basename $<) $@",
+            )
+            native.filegroup(
+                    name = name_os + "_grp",
+                    srcs = [
+                            name_os_full,
+                            name_os_major + "_sym",
+                            name_os + "_sym",
+                    ]
+            )
+
+
+    # flat_names = [item for sublist in names for item in sublist]
+    # if name not in flat_names:
+    #     native.filegroup(
+    #         name = name,
+    #         srcs = select({
+    #             "//tensorflow:windows": [":%s.dll" % (name)],
+    #             "//tensorflow:macos": [":lib%s%s.dylib" % (name, longsuffix)],
+    #             "//conditions:default": [":lib%s.so%s" % (name, longsuffix)],
+    #         }),
+    #         visibility = visibility,
+    #     )
 
 register_extension_info(
     extension_name = "tf_cc_shared_object",

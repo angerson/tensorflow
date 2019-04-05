@@ -32,3 +32,5 @@ if [ "${TF_NEED_ROCM}" == "1" ]; then
 fi
 
 build_libtensorflow_tarball "${SUFFIX}$(uname -m)"
+chmod go+w lib_package/*
+bazel clean --expunge
