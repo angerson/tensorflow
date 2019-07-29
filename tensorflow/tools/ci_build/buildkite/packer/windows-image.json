@@ -1,0 +1,46 @@
+{
+    "variables": {
+        "gcp_project_id": "",
+        "buildkite_agent_token": ""
+    },
+    "builders": [{
+        "type": "googlecompute",
+        "project_id": "{{user `gcp_project_id`}}",
+        "source_image_family": "windows-1809-core-for-containers",
+        "image_family": "windows",
+        "disk_size": "50",
+        "machine_type": "n1-standard-4",
+        "communicator": "winrm",
+        "winrm_username": "packer_user",
+        "winrm_insecure": true,
+        "winrm_use_ssl": true,
+        "state_timeout": "15m",
+        "tags": ["packer-winrm"],
+        "metadata": {
+            "windows-startup-script-cmd": "winrm quickconfig -quiet & net user /add packer_user & net localgroup administrators packer_user /add & winrm set winrm/config/service/auth @{Basic=\"true\"}"
+        },
+        "zone": "us-central1-a"
+    }],
+    "provisioners": [
+        {
+            "type": "powershell",
+            "inline": [
+                "Set-ExecutionPolicy RemoteSigned -Scope Process -Force",
+                "iex ((New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh'))",
+                "Set-ExecutionPolicy ByPass -Scope Process -Force",
+                "scoop install sudo",
+                "sudo scoop install -g git" 
+            ]
+        },
+        {
+            "type": "windows-restart"
+        },
+        {
+            "type": "powershell",
+            "script": "windows-image.ps1",
+            "environment_vars": [
+                "buildkiteAgentToken={{user `buildkite_agent_token`}}"
+            ]
+        }
+    ]
+}

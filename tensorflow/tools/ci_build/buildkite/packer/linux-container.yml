@@ -1,0 +1,21 @@
+x-buildkite: &buildkite
+    buildkite_agent_token: "{{env `BUILDKITE_AGENT_TOKEN`}}"
+
+containers:
+    nvidia-py3.7.4:
+        base_image: nvidia/cuda:10.0-base-ubuntu18.04
+        python_version: 3.7.4
+        <<: *buildkite
+
+
+
+- label: ":ubuntu: 18.04"
+
+  job anatomy: 
+    maybe pull image
+    maybe pull secrets
+    maybe activate environment stuff (eg pipenv switch, bazelisk)
+    run build script
+    upload artifacts
+
+    

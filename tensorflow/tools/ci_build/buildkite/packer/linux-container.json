@@ -1,0 +1,27 @@
+{
+    "variables": {
+        "docker_repo_gcp_project": "",
+        "docker_repo_gcp_image": "",
+        "tag": "latest"
+    },
+    "sensitive-variables": [
+        "docker_repo_password"
+    ],
+    "builders": [{
+        "type": "docker",
+        "image": "tensorflow/tensorflow:devel-gpu-py3",
+        "commit": true
+    }],
+    "provisioners": [{
+        "type": "shell",
+        "script": "linux-container.sh"
+    }],
+    "post-processors": [{
+        "type": "docker-tag",
+        "repository": "gcr.io/{{user `docker_repo_gcp_project`}}/{{user `docker_repo_gcp_image`}}",
+        "tag": "{{user `tag`}}"
+    }, {
+        "type": "docker-push",
+        "keep_input_artifact": true
+    }]
+}

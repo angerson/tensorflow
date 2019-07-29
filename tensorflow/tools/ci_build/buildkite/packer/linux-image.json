@@ -1,0 +1,22 @@
+{
+    "variables": {
+        "gcp_project_id": "",
+        "buildkite_agent_token": ""
+    },
+    "sensitive-variables": ["buildkite_agent_token"],
+    "builders": [{
+        "type": "googlecompute",
+        "project_id": "{{user `gcp_project_id`}}",
+        "source_image_family": "ubuntu-1804-lts",
+        "ssh_username": "packer",
+        "zone": "us-central1-a",
+        "image_family": "linux"
+    }],
+    "provisioners": [{
+        "type": "shell",
+        "script": "linux-image.sh",
+        "environment_vars": [
+            "BUILDKITE_AGENT_TOKEN={{user `buildkite_agent_token`}}"
+        ]
+    }]
+}
