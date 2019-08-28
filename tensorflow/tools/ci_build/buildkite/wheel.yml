@@ -3,15 +3,12 @@ steps:
     agents:
       queue: "docker"
     commands:
-      - "bazel version"
-      - "bazel version"
-      - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt --copt=-mavx --config=cuda --cxxopt='-D_GLIBCXX_USE_CXX11_ABI=0' tensorflow/tools/pip_package:build_pip_package"
+      - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt tensorflow/tools/pip_package:build_pip_package"
       - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
     plugins:
       - docker#v3.3.0:
-          image: "tensorflow/tensorflow:devel-gpu"
+          image: "tensorflow/tensorflow:devel-py3"
           always-pull: true
-          runtime: nvidia
           propagate-environment: true
           volumes:
             - "/etc/group:/etc/group:ro"
