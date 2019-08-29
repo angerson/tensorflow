@@ -9,6 +9,16 @@ steps:
       - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
     plugins:
       - docker#v3.3.0:
-          image: "tensorflow/tensorflow:devel-py3"
-          always-pull: true
-          propagate-environment: true
+        network: "host"
+        volumes:
+          - "/etc/group:/etc/group:ro"
+          - "/etc/passwd:/etc/passwd:ro"
+          - "/opt:/opt:ro"
+          - "/var/lib/buildkite-agent:/var/lib/buildkite-agent"
+          - "/var/lib/gitmirrors:/var/lib/gitmirrors:ro"
+          - "/var/run/docker.sock:/var/run/docker.sock"
+        image: "tensorflow/tensorflow:devel-py3"
+        privileged: true
+        propagate-uid-gid: true
+        always-pull: true
+        propagate-environment: true
