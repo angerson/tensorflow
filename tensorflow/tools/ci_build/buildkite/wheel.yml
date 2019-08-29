@@ -14,7 +14,6 @@ steps:
             - "/etc/group:/etc/group:ro"
             - "/etc/passwd:/etc/passwd:ro"
             - "/opt:/opt:ro"
-            - "/var/lib/buildkite-agent:/var/lib/buildkite-agent"
             - "/var/lib/gitmirrors:/var/lib/gitmirrors:ro"
             - "/var/run/docker.sock:/var/run/docker.sock"
           image: "tensorflow/tensorflow:devel-py3"
