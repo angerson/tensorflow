@@ -9,6 +9,6 @@ steps:
       - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
     plugins:
       - docker:#v3.3.0
-      image: "tensorflow/tensorflow:devel-py3"
-      always-pull: true
-      propagate-environment: true
+          image: "tensorflow/tensorflow:devel-py3"
+          always-pull: true
+          propagate-environment: true
