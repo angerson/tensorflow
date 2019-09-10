@@ -6,9 +6,11 @@ steps:
       - "whoami"
       - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package"
       - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
+      - "sudo mv /tmp/pip ."
     artifact_paths:
       - "**/*.whl"
       - "**/.bazelrc"
+      - "**/*.bazelrc"
     plugins:
       - docker#v3.3.0:
           image: "tensorflow/tensorflow:devel-gpu-py3"
