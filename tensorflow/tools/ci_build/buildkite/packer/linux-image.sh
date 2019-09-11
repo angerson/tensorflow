@@ -30,8 +30,28 @@ sudo add-apt-repository \
    stable"
 sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 sudo systemctl enable docker
+sudo systemctl start docker
 # Let the agent use Docker
 sudo usermod -aG docker buildkite-agent
+
+# Make docker use gcloud for configuration
+# Not sure why this weird snap thing is so stupid
+sudo ln -s /snap/google-cloud-sdk/current/bin/docker-credential-gcloud /usr/local/bin
+sudo mkdir -p /var/lib/buildkite-agent/.docker/
+sudo tee /var/lib/buildkite-agent/.docker/config.json <<EOF
+{
+ "credHelpers": {
+   "gcr.io": "gcloud",
+   "us.gcr.io": "gcloud",
+   "eu.gcr.io": "gcloud",
+   "asia.gcr.io": "gcloud",
+   "staging-k8s.gcr.io": "gcloud",
+   "marketplace.gcr.io": "gcloud"
+ }
+}
+EOF
+sudo chown -R buildkite-agent:buildkite-agent /var/lib/buildkite-agent/.docker/
+
 
 
 # Install Nvidia and Nvidia Docker support
@@ -39,6 +59,12 @@ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
 curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 sudo apt-get update && sudo apt-get install -y nvidia-driver-430 nvidia-docker2
+
+# Install berglas for secrets management
+# Should pin to specific release version
+wget "https://storage.googleapis.com/berglas/master/linux_amd64/berglas"
+sudo mv berglas /usr/bin/berglas
+sudo chmod +x /usr/bin/berglas
 
 # Clean up apt lists
 sudo rm -rf /var/lib/apt/lists/*

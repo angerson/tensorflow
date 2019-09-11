@@ -1,19 +1,34 @@
 steps:
-  - label: Run in Docker
+  - label: :packer:->:docker:
+    agents:
+      queue: "docker"
+    command: "berglas exec --local -- build_linux_image.sh"
+    env:
+      BUILDKITE_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
+      PUSH_IMAGE: "gcr.io/tensorflow-buildkite-demo/ci"
+      IMAGE_TAG: "devel-gpu-py3"
+      SOURCE_IMAGE: "tensorflow/tensorflow:devel-gpu-py3"
+    retry:
+      automatic: 
+        - exit_status: "*"
+          limit: 2
+  - wait
+  - label: Run TF Build
     agents:
       queue: "docker"
     commands:
-      - "whoami"
-      - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package"
-      - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
-      - "sudo mv /tmp/pip ."
+      - "echo hello"
+      # - "whoami"
+      # - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package"
+      # - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
+      # - "mv /tmp/pip ."
     artifact_paths:
       - "**/*.whl"
       - "**/.bazelrc"
       - "**/*.bazelrc"
     plugins:
       - docker#v3.3.0:
-          image: "tensorflow/tensorflow:devel-gpu-py3"
+          image: "gcr.io/tensorflow-buildkite-demo/ci:devel-gpu-py3"
           runtime: "nvidia"
           always-pull: true
           propagate-environment: true

@@ -1,2 +1,2 @@
 #!/bin/bash
-echo Hello
+echo "There is no extra setup with this!"
