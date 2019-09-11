@@ -1,3 +1,10 @@
 steps:
-  - label: Example Test
-    command: echo "Hello!"
+  - label: :packer:->:gcp:
+    agents:
+      queue: "docker"
+    command: "berglas exec --local -- build_docker_image.sh"
+    env:
+      BUILDKITE_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
+      PUSH_IMAGE: "gcr.io/tensorflow-buildkite-demo/ci"
+      IMAGE_TAG: "devel-gpu-py3"
+      SOURCE_IMAGE: "tensorflow/tensorflow:devel-gpu-py3"
