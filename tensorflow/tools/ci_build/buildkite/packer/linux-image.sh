@@ -20,6 +20,7 @@ sudo apt-get update && sudo apt-get install -y \
   apt-transport-https \
   ca-certificates \
   curl \
+  unzip \
   gnupg-agent \
   software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -52,7 +53,10 @@ sudo tee /var/lib/buildkite-agent/.docker/config.json <<EOF
 EOF
 sudo chown -R buildkite-agent:buildkite-agent /var/lib/buildkite-agent/.docker/
 
-
+# Install packer
+wget https://releases.hashicorp.com/packer/1.4.3/packer_1.4.3_linux_amd64.zip -O packer.zip
+unzip packer.zip
+sudo mv packer /usr/bin/packer
 
 # Install Nvidia and Nvidia Docker support
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
