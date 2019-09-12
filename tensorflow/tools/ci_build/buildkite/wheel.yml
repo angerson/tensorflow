@@ -1,5 +1,5 @@
 steps:
-  - label: ":packer::docker:"
+  - label: ":packer::arrow_right::docker:"
     agents:
       queue: "docker"
     command: "berglas exec --local -- build_linux_image.sh"

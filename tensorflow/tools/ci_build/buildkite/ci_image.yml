@@ -1,5 +1,5 @@
 steps:
-  - label: ":packer::gcp:"
+  - label: ":packer::arrow_right::googlecloud:"
     agents:
       queue: "docker"
     command: "berglas exec --local -- build_docker_image.sh"
