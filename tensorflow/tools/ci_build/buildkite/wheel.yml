@@ -17,11 +17,7 @@ steps:
     agents:
       queue: "docker"
     commands:
-      - "echo hello"
-      # - "whoami"
-      # - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package"
-      # - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
-      # - "mv /tmp/pip ."
+      - "whoami"
     artifact_paths:
       - "**/*.whl"
       - "**/.bazelrc"
@@ -32,3 +28,7 @@ steps:
           runtime: "nvidia"
           always-pull: true
           propagate-environment: true
+
+# - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package"
+# - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
+# - "mv /tmp/pip ."
