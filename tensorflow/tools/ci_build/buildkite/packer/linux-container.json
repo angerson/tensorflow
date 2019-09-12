@@ -10,7 +10,10 @@
     "builders": [{
         "type": "docker",
         "image": "{{user `source_image`}}",
-        "commit": true
+        "commit": true,
+        "changes": [
+            "ENTRYPOINT /bin/bash"
+        ]
     }],
     "provisioners": [{
         "type": "shell",
