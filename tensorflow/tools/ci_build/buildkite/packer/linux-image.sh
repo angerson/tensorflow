@@ -72,3 +72,5 @@ sudo chmod +x /usr/bin/berglas
 
 # Clean up apt lists
 sudo rm -rf /var/lib/apt/lists/*
+
+echo "Done!"
