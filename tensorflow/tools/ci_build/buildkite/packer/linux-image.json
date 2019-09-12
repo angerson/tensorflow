@@ -10,6 +10,7 @@
         "source_image_family": "ubuntu-1804-lts",
         "ssh_username": "packer",
         "zone": "us-central1-a",
+        "use_internal_ip": true,
         "image_family": "linux"
     }],
     "provisioners": [{

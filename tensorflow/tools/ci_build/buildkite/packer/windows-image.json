@@ -13,7 +13,6 @@
         "communicator": "winrm",
         "winrm_username": "packer_user",
         "winrm_insecure": true,
-        "use_internal_ip": true,
         "winrm_use_ssl": true,
         "state_timeout": "15m",
         "tags": ["packer-winrm"],
