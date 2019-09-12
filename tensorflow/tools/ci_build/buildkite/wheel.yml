@@ -1,5 +1,5 @@
 steps:
-  - label: ":packer::arrow_right::docker:"
+  - label: ":packer::arrow_right::docker::python::three:GPU"
     agents:
       queue: "docker"
     command: "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/build_docker_image.sh"
@@ -13,11 +13,13 @@ steps:
         - exit_status: "*"
           limit: 2
   - wait
-  - label: Run TF Build
+  - label: ":tensorflow::python::three:GPU"
     agents:
       queue: "docker"
     commands:
-      - "whoami"
+      - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package"
+      - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
+      - "mv /tmp/pip ."
     artifact_paths:
       - "**/*.whl"
       - "**/.bazelrc"
@@ -28,7 +30,3 @@ steps:
           runtime: "nvidia"
           always-pull: true
           propagate-environment: true
-
-# - "tensorflow/tools/ci_build/builds/configured GPU bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package"
-# - "bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip"
-# - "mv /tmp/pip ."
