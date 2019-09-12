@@ -12,7 +12,8 @@
         "image": "{{user `source_image`}}",
         "commit": true,
         "changes": [
-            "ENTRYPOINT /bin/bash"
+            "ENTRYPOINT [\"\"]",
+            "CMD [\"\"]"
         ]
     }],
     "provisioners": [{
