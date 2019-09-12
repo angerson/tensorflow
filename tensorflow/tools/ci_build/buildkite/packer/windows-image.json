@@ -2,7 +2,6 @@
     "variables": {
         "gcp_project_id": "",
         "buildkite_agent_token": ""
-        "use_internal_ip": true
     },
     "builders": [{
         "type": "googlecompute",
@@ -14,7 +13,7 @@
         "communicator": "winrm",
         "winrm_username": "packer_user",
         "winrm_insecure": true,
-        "use_internal_ip": "{{user`use_internal_ip`}}",
+        "use_internal_ip": true,
         "winrm_use_ssl": true,
         "state_timeout": "15m",
         "tags": ["packer-winrm"],
