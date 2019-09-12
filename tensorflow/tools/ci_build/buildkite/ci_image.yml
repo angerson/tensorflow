@@ -2,7 +2,7 @@ steps:
   - label: ":packer::arrow_right::googlecloud:"
     agents:
       queue: "docker"
-    command: "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/build_docker_image.sh"
+    command: "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/build_linux_image.sh"
     env:
       BUILDKITE_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
       PUSH_IMAGE: "gcr.io/tensorflow-buildkite-demo/ci"

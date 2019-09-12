@@ -3,7 +3,7 @@
 set -euxo pipefail
 
 if git diff --name-only @~..@ | grep -v tensorflow/tools/ci_build/buildkite/packer/linux-container; then
-  echo ":cake: Packer not changed, no changes necessary"
+  echo "Packer not changed, no changes necessary"
   exit 0
 fi
 
