@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euxo pipefail
+
+PACKER_TARGET=$1
+
+if git diff --name-only @~..@ | grep tensorflow/tools/ci_build/buildkite/packer/$PACKER_TARGET; then
+  echo "+++ :packer:"
+  cd tensorflow/tools/ci_build/buildkite/packer/
+  packer build $PACKER_TARGET.json
+else
+  echo "Image config not changed, no updates necessary"
+fi

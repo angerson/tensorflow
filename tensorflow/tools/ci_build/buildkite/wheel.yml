@@ -1,8 +1,8 @@
 steps:
-  - label: ":packer::arrow_right::docker::python::three:GPU"
+  - label: ":packer::arrow_right::docker::python:3 GPU"
     agents:
       queue: "docker"
-    command: "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/build_docker_image.sh"
+    command: "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/maybe_packer.sh linux-container"
     env:
       BUILDKITE_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
       PUSH_IMAGE: "gcr.io/tensorflow-buildkite-demo/ci"
@@ -13,7 +13,7 @@ steps:
         - exit_status: "*"
           limit: 2
   - wait
-  - label: ":tensorflow::python::three:GPU"
+  - label: ":tensorflow::ubuntu::python:3 GPU"
     agents:
       queue: "docker"
     commands:
