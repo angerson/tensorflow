@@ -2,7 +2,10 @@ steps:
   - label: ":packer::arrow_right::googlecloud::ubuntu:"
     agents:
       queue: "docker"
-    command: "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/maybe_packer.sh linux-image"
+    commands:
+      - "echo $BUILDKITE_AGENT_TOKEN"
+      - "berglas access tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token | cut -c1-5"
+      - "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/maybe_packer.sh linux-image"
     env:
       BUILDKITE_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
       GCP_PROJECT_ID: "tensorflow-buildkite-demo"
