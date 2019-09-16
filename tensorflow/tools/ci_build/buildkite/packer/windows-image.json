@@ -1,7 +1,7 @@
 {
     "variables": {
-        "gcp_project_id": "",
-        "buildkite_agent_token": ""
+        "gcp_project_id": "{{env `GCP_PROJECT_ID`}}",
+        "buildkite_agent_token": "{{env `BUILDKITE_AGENT_TOKEN`}}"
     },
     "builders": [{
         "type": "googlecompute",

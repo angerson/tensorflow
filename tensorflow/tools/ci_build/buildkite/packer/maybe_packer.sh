@@ -1,8 +1,10 @@
 #!/bin/bash
 
-set -euxo pipefail
+set -exo pipefail
 
 PACKER_TARGET=$1
+
+echo "$BUILDKITE_AGENT_TOKEN" | cut -c1-5
 
 if git diff --name-only @~..@ | grep tensorflow/tools/ci_build/buildkite/packer/$PACKER_TARGET; then
   echo "+++ :packer:"
