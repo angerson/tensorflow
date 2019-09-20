@@ -1,11 +1,11 @@
 #! /usr/bin/env bash
 set -exo pipefail
-echo "$BUILDKITE_AGENT_TOKEN" | cut -c1-5
+echo "$TFBK_AGENT_TOKEN" | cut -c1-5
 # Install Buildkite agent
 echo "deb https://apt.buildkite.com/buildkite-agent stable main" | sudo tee /etc/apt/sources.list.d/buildkite-agent.list
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198
 sudo apt-get update && sudo apt-get install -y buildkite-agent
-sudo sed -i "s/xxx/${BUILDKITE_AGENT_TOKEN}/g" /etc/buildkite-agent/buildkite-agent.cfg
+sudo sed -i "s/xxx/${TFBK_AGENT_TOKEN}/g" /etc/buildkite-agent/buildkite-agent.cfg
 # echo "tags-from-gcp=true" | sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg
 sudo tee -a /etc/buildkite-agent/buildkite-agent.cfg <<BK
 tags="queue=docker"

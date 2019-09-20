@@ -4,7 +4,7 @@ steps:
       queue: "docker"
     command: "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/maybe_packer.sh linux-container"
     env:
-      BUILDKITE_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
+      TFBK_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
       PUSH_IMAGE: "gcr.io/tensorflow-buildkite-demo/ci"
       IMAGE_TAG: "devel-gpu-py3"
       SOURCE_IMAGE: "tensorflow/tensorflow:devel-gpu-py3"

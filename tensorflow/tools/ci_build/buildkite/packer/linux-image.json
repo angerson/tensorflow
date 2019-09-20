@@ -1,9 +1,9 @@
 {
     "variables": {
         "gcp_project_id": "{{env `GCP_PROJECT_ID`}}",
-        "buildkite_agent_token": "{{env `BUILDKITE_AGENT_TOKEN`}}"
+        "tfbk_agent_token": "{{env `TFBK_AGENT_TOKEN`}}"
     },
-    "sensitive-variables": ["buildkite_agent_token"],
+    "sensitive-variables": ["tfbk_agent_token"],
     "builders": [{
         "type": "googlecompute",
         "project_id": "{{user `gcp_project_id`}}",
@@ -17,7 +17,7 @@
         "type": "shell",
         "script": "linux-image.sh",
         "environment_vars": [
-            "BUILDKITE_AGENT_TOKEN={{user `buildkite_agent_token`}}"
+            "TFBK_AGENT_TOKEN={{user `tfbk_agent_token`}}"
         ]
     }]
 }

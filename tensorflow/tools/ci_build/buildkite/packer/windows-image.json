@@ -1,7 +1,7 @@
 {
     "variables": {
         "gcp_project_id": "{{env `GCP_PROJECT_ID`}}",
-        "buildkite_agent_token": "{{env `BUILDKITE_AGENT_TOKEN`}}"
+        "tfbk_agent_token": "{{env `TFBK_AGENT_TOKEN`}}"
     },
     "builders": [{
         "type": "googlecompute",
@@ -40,7 +40,7 @@
             "type": "powershell",
             "script": "windows-image.ps1",
             "environment_vars": [
-                "buildkiteAgentToken={{user `buildkite_agent_token`}}"
+                "buildkiteAgentToken={{user `tfbk_agent_token`}}"
             ]
         }
     ]
