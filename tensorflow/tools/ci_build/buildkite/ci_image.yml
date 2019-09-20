@@ -7,6 +7,7 @@ steps:
       - "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/maybe_packer.sh linux-image"
     env:
       BUILDKITE_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
+      BTOK: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
       GCP_PROJECT_ID: "tensorflow-buildkite-demo"
       ANOTHER_ENV_PARAM: "foo"
   - label: ":packer::arrow_right::googlecloud::windows:"
