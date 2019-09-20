@@ -3,6 +3,7 @@ steps:
     agents:
       queue: "docker"
     commands:
+      - "tensorflow/tools/ci_build/buildkite/packer/maybe_packer.sh linux-image"
       - "berglas exec --local -- tensorflow/tools/ci_build/buildkite/packer/maybe_packer.sh linux-image"
     env:
       BUILDKITE_AGENT_TOKEN: "berglas://tensorflow-buildkite-demo-berglas-secrets/buildkite-agent-token"
