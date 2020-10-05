@@ -1,10 +1,14 @@
 on: workflow_dispatch
+name: Update prod branch on release
 jobs:
-   sync:
-      runs-on: ubuntu-latest
-      steps:
-         - uses: peterjgrainger/action-create-branch@v2.0.0
-           env:
-             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-           with:
-             branch: 'angerson-nightly'
+  sync:
+    name: Update nightly branch
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: Embraser01/update-git-branch-action@v1.0.0
+      if: github.ref == 'refs/heads/master'
+      with:
+        branch: angerson-nightly
+        force: 1 # To push-force to the branch
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
