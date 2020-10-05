@@ -1,0 +1,10 @@
+on: workflow_dispatch
+jobs:
+   sync:
+      runs-on: ubuntu-latest
+      steps:
+           uses: peterjgrainger/action-create-branch@v2.0.0
+           env:
+             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           with:
+             branch: 'angerson-nightly'
