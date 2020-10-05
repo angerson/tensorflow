@@ -1,12 +1,9 @@
 on: workflow_dispatch
 name: Update branch
 jobs:
-  run_action:
+  mirror-to-master:
     runs-on: ubuntu-latest
     steps:
-      - name: Merge Follow Branch
-        uses: toysmoon/follow_branch@1.0.3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          target-branch: master
-          following-branch: super-nightly
+    - uses: zofrex/mirror-branch@v1
+      with:
+        target-branch: angerson-is-angry
