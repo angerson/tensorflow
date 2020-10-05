@@ -1,0 +1,13 @@
+name: sync-nightly
+on: workflow_dispatch
+jobs:
+   sync:
+      name: sync-nightly
+      runs-on: ubuntu-latest
+      steps:
+         - name: sync-nightly
+           uses: peterjgrainger/action-create-branch@v2.0.0
+           env:
+             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           with:
+             branch: 'angerson-nightly'
