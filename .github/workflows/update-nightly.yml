@@ -1,9 +1,16 @@
 on: workflow_dispatch
-name: Update branch
+name: Mirror 'master' to 'nightly'
 jobs:
-  mirror-to-master:
+  master-to-nightly:
     runs-on: ubuntu-latest
     steps:
-    - uses: zofrex/mirror-branch@v1
+    - uses: peterjgrainger/action-create-branch@v1.0.0
+      name: Create 'nightly-final' branch if it doesn't already exist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        target-branch: super-nightly
+        branch: 'nightly-final'
+    - uses: zofrex/mirror-branch@v1
+      name: Set nightly-final to master HEAD
+      with:
+        target-branch: 'nightly-final'
