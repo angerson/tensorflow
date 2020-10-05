@@ -9,4 +9,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           target-branch: master
-          following-branch: angerson-nightly
+          following-branch: super-nightly
